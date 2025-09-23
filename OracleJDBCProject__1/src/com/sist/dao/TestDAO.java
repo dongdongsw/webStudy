@@ -69,7 +69,7 @@ public class TestDAO {
 
 	private Connection conn;
 	private PreparedStatement ps;
-	// 변경 사항이 없다ㅁ
+	// 변경 사항이 없다
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
 	/*
 	 * 	jdbc:업체명:@IP:port:database이름
