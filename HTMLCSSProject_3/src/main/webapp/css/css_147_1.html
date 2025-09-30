@@ -1,0 +1,67 @@
+<!-- 
+	
+ -->
+ 
+ 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+body{
+	padding:20px;
+	background:#f9f9f9;
+	
+}
+
+.card{
+	background : white;
+	padding : 20px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+	box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card h2::before{
+	content:"☆";
+	color:gold;
+}
+
+.card h2::after{
+	content:"★";
+	color:green;
+}
+ul li{
+	list-style:none;
+}
+
+ul li::before{
+	content: "🎃";
+	color:blue;
+	font-weight:bold;
+	margin-right:5px;
+}
+
+
+</style>
+</head>
+<body>
+	<div class="card">
+		<h2>카드 제목</h2>
+		<p>카드에는 제목 앞뒤에 아이콘이 있다</p>
+	</div>
+	<div class="card">
+		<h2>리스트 예제</h2>
+		<ul>
+			<li>아이템 1</li>
+			<li>아이템 2</li>
+			<li>아이템 3</li>
+		</ul>
+	</div>  
+	<div class="card">
+		<h2>버튼 예제</h2>
+		<button>클릭하세요</button>
+	</div>
+</body>
+</html>
