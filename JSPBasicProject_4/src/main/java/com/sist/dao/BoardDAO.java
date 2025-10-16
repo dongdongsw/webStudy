@@ -129,15 +129,63 @@ public class BoardDAO {
 	}
 	
 	
+	/*
+	 	패스워드 확인
+	 	<select id="boardGetPassword" resultType="String" parameterType="int">
+			SELECT pwd FROM jspBoard
+			WHERE no=#{no}
+		</select>
+		
+		실제 업데이트
+		<update id="boardUpdate" parameterType="BoardVO">
+			UPDATE jspBoard SET
+			name=#{name}, subject=#{subject}, content=#{content}
+			WHERE no=#{no}
+		</update>
+	 */
+	public static boolean boardUpdate(BoardVO vo) {
+		
+		boolean bCheck = false;
+		SqlSession session = ssf.openSession();
+		//1. 비밀번호
+		String db_pwd=session.selectOne("boardGetPassword",vo.getNo());
+		if(db_pwd.equals(vo.getPwd())) {
+			//수정
+			bCheck=true;
+			session.update("boardUpdate",vo);
+		}
+		session.close();
+		return bCheck;
+	}
+		
+	/*
+	 	 패스워드 확인
+	 	<select id="boardGetPassword" resultType="String" parameterType="int">
+			SELECT pwd FROM jspBoard
+			WHERE no=#{no}
+		</select>
+		
+		게시물 삭제
+		<delete id="boardDelete" parameterType="int">
+			DELETE FROM jspBoard
+			WHERE no=#{no}	
+		</delete>
+	 */
+	public static boolean boardDelete(int no, String pwd) {
+		boolean bCheck=false;
+		SqlSession session = ssf.openSession(true);
+		String db_pwd = session.selectOne("boardGetPassword",no);
+		if(db_pwd.equals(pwd)) {
+			bCheck=true;
+			session.delete("boardDelete",no);
+		}
+		session.close();
+		return bCheck;		
+	}
 	
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	
-}
+	}

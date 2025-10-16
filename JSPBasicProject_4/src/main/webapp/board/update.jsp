@@ -28,16 +28,18 @@ h1{
 </style>
 </head>
 <body>
-<div class=container>
+
 		<div class=container>
 		<div class=row>
 			<h1>글쓰기</h1>
-			<form method="post" action="insert_ok.jsp">
+			<form method="post" action="update_ok.jsp">
 				<table class="table">
 					<tr>
 						<th width=15%>이름</th>
 						<td width=85%>
 							<input type=text name=name size=20 class=input-sm required value=<%= vo.getName() %>>
+							<input type=hidden name=no value="<%=vo.getNo()%>">
+							
 						</td>
 					</tr>
 					<tr>
@@ -60,7 +62,7 @@ h1{
 					</tr>
 					<tr>
 						<td class=text-center colspan=2>
-							<input type=submit value=글쓰기 class= "btn-sm btn-info">
+							<input type=submit value=수정 class= "btn-sm btn-info">
 							<input type=button value=취소 class= "btn-sm btn-info" onclick="javascript:history.back()">
 						</td>
 					</tr>
