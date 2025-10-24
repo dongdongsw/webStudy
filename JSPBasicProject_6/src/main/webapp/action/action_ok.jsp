@@ -1,4 +1,4 @@
-<%@page import="com.sist.vo.MemberVO"%>
+<%@page import="com.sist.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%-- <%
@@ -22,7 +22,7 @@
 	=> 	MemberVO vo = new MemberVO();
 	
  --%>
-<jsp:useBean id="vo" class="com.sist.vo.MemberVO">
+<jsp:useBean id="vo" class="com.sist.vo.Member">
 	<jsp:setProperty name="vo" property="*"/>
 </jsp:useBean>
 
