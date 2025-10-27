@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.music-mapper">
+	<select id="musicListData" resultType="MusicVO" parameterType="hashmap">
+		SELECT no, cno, rank, idcrement, title, singer, poster, state, num
+		FROM (SELECT no,rank, cno ,idcrement, title, singer, poster, state, rownum as num
+		FROM (SELECT no,rank, cno, idcrement, title, singer, poster, state
+		FROM genie_music ORDER BY no))
+		WHERE num BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="musicTotalData" resultType="int">
+		SELECT CEIL(COUNT(*)/12.0)
+		FROM genie_music
+	</select>
+	
+	<select id="musicDetailData" resultType="MusicVO" parameterType="int">
+		SELECT * FROM genie_music
+		WHERE no=#{no}
+	</select>
+</mapper>
