@@ -55,17 +55,68 @@ public class MusicModel {
 		request.setAttribute("main_jsp","../music/list.jsp");
 		return "../main/main.jsp";
 	}
-	/*
-	 * @RequestMapping("music/find.do") public String music_find(HttpServletRequest
-	 * request, HttpServletResponse response) {
-	 * 
-	 * }
-	 * 
-	 * @RequestMapping("music/type.do") public String music_type(HttpServletRequest
-	 * request, HttpServletResponse response) {
-	 * 
-	 * }
-	 */
+	
+	 @RequestMapping("music/find.do") public String music_find(HttpServletRequest
+	 request, HttpServletResponse response) {
+	 
+		 String column = request.getParameter("column");
+		 String ss = request.getParameter("ss");
+		 if(ss == null) {
+			 ss = "";
+		 }
+		 if(column == null) {
+			  column ="title";
+		 }
+		 Map map = new HashMap();
+		 map.put("ss", ss);
+		 map.put("column", column);
+		 List<MusicVO> list = MusicDAO.musicFindListData(map);
+		  
+		 request.setAttribute("list", list);
+		 request.setAttribute("main_jsp","../music/find.jsp");
+		 return "../main/main.jsp";
+	 }
+	 
+	 @RequestMapping("music/type.do") public String music_type(HttpServletRequest
+	 request, HttpServletResponse response) {
+	 
+		 String page = request.getParameter("page");
+		 String type = request.getParameter("cno");
+		 if(page==null) {
+			  page="1";
+		  }
+		  if(type==null) {
+			  type="1";
+		  }
+		 Map map = new HashMap();
+		 
+		 int curpage = Integer.parseInt(page);
+				 
+		 int rowSize = 12;
+		 int start = (curpage-1)*rowSize; 	//OFFSET => 0
+		  									// InlineView => 1
+		 map.put("start", start);
+		 map.put("cno", type);
+		 
+		 List<MusicVO> list = MusicDAO.musicTypeListData(map);
+		 int totalpage = MusicDAO.musicTypeTotalPage(Integer.parseInt(type));
+		 
+		 final int BLOCK = 10;
+		  int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		  int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		  if(endPage > totalpage) {
+			  endPage = totalpage;
+		  }
+		 request.setAttribute("list",list);
+		 request.setAttribute("cno",type);
+		 request.setAttribute("curpage",curpage);
+		 request.setAttribute("totalpage",totalpage);
+		 request.setAttribute("startPage",startPage);
+		 request.setAttribute("endPage", endPage);
+		 request.setAttribute("main_jsp","../music/type.jsp");
+		 return "../main/main.jsp";
+	 }
+	 
 	  @RequestMapping("music/detail.do") 
 	  public String music_detail(HttpServletRequest request, HttpServletResponse response) {
 		

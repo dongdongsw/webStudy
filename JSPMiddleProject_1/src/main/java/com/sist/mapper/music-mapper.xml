@@ -18,4 +18,22 @@
 		SELECT * FROM genie_music
 		WHERE no=#{no}
 	</select>
+	<select id="musicFindListData" resultType="MusicVO" parameterType="hashmap">
+	   	SELECT no,title,singer,poster
+	   	FROM genie_music
+	   	WHERE ${column} LIKE '%'||#{ss}||'%'
+   	
+	</select>
+	<select id="musicTypeListData" resultType="MusicVO" parameterType="hashmap">
+		SELECT no, cno, rank, idcrement, title, singer, poster, state
+		FROM genie_music
+		WHERE cno = #{cno}
+		ORDER BY no ASC
+		OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY
+	</select>
+	<select id="musicTypeTotalPage" resultType="int" parameterType="int">
+		SELECT CEIL(COUNT(*)/10.0)
+		FROM genie_music
+		WHERE cno = #{cno}
+	</select>
 </mapper>

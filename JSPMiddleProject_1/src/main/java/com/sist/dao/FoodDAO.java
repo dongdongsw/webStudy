@@ -75,4 +75,73 @@ public class FoodDAO {
 	   session.close();
 	   return vo;
    }
+   
+   /*
+      <select id="foodTypeListData" resultType="FoodVO" parameterType="hashmap">
+	  	SELECT fno,name,poster,type
+	  	FROM menupan_food
+	  	WHERE type LIKE '%'||#{type}||'%'
+	  	ORDER BY fno ASC
+	  	OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY
+	  </select>
+	   <select id="foodTypeTotalPage" resultType="int" parameterType="String">
+	   		SELECT CEIL(COUNT(*)/12.0)
+	   		FROM menupan_food
+	   		WHERE type LIKE '%'||#{type}||'%'
+	   </select>
+    */
+   
+   public static List<FoodVO> foodTypeListData(Map map){
+	   
+	   List<FoodVO> list = null;
+	   try {
+		   SqlSession session = ssf.openSession();
+		   list = session.selectList("foodTypeListData",map);
+		   session.close();
+		   
+		   
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	   
+	   return list;
+   }
+   
+   public static int foodTypeTotalPage(String type) {
+	   int total = 0;
+	   try {
+		   SqlSession session = ssf.openSession();
+		   total = session.selectOne("foodTypeTotalPage",type);
+		   session.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	   return total;
+   }
+   
+   /*
+      <select id="foodFindListData" resultType="FoodVO" parameterType="hashmap">
+	   	SELECT fno,name,subject, address
+	   	FROM menupan_food
+	   	WHERE ${column} LIKE '%'||#{ss}||'%'
+	   	<!-- 
+	   		WHERE 'address' LIKE ~ 
+	   		$ = table, column 
+	   	 -->
+	  </select>
+    */
+   public static List<FoodVO> foodFindListData(Map map){
+	   List<FoodVO> list = null;
+		
+		  try { 
+			  SqlSession session = ssf.openSession(); 
+			  list = session.selectList("foodFindListData", map); 
+			  session.close(); 
+		  } catch(Exception ex) { 
+			  System.out.println("foodFindListData" + ex.getMessage());
+		 }
+		 
+	   
+	   return list;
+   }
 }
