@@ -23,12 +23,14 @@ public class ReplyBoardModel {
 	  // 스프링 board_insert(BoardVO vo)
 	  if(page==null)
 		  page="1";
+	  
 	  int curpage=Integer.parseInt(page);
 	  List<ReplyBoardVO> list=
 			   ReplyBoardDAO.boardListData((curpage-1)*10);
 	  int count=ReplyBoardDAO.boardTotalPage();
 	  int totalpage=(int)(Math.ceil(count/10.0));
 	  count=count-((curpage*10)-10);
+	  
 	  request.setAttribute("today", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 	  request.setAttribute("count", count);
 	  request.setAttribute("list", list);
@@ -37,4 +39,81 @@ public class ReplyBoardModel {
 	  request.setAttribute("main_jsp", "../replyboard/list.jsp");
 	  return "../main/main.jsp";
   }
+  @RequestMapping("board/insert.do")
+  public String board_insert(HttpServletRequest request,
+		  HttpServletResponse response) {
+	  
+	  
+	  
+	  
+	  request.setAttribute("main_jsp", "../replyboard/insert.jsp");
+	  return "../main/main.jsp";
+  }
+  
+  @RequestMapping("board/insert_ok.do")
+  public String board_insert_ok(HttpServletRequest request,
+		  HttpServletResponse response) {
+	  //처리
+	  // 1. 사용자가 보낸 데이터 받기 name, subject, content, pwd
+	  String name = request.getParameter("name");
+	  String subject = request.getParameter("subject");
+	  String content = request.getParameter("content");
+	  String pwd = request.getParameter("pwd");
+	  
+	  ReplyBoardVO vo = new ReplyBoardVO();
+	  vo.setName(name);
+	  vo.setContent(content);
+	  vo.setSubject(subject);
+	  vo.setPwd(pwd);
+	  
+	  //vo => dao : 오라클 저장
+	  ReplyBoardDAO.boardInsert(vo);
+	  // 화면 이동
+	  // sendRedirect() => 화면 이동 (request를 초기화)
+	  // 재호출 => list.do 다시 호출된다
+	  
+	  return "redirect:../board/list.do";
+  }
+  
+  @RequestMapping("board/detail.do")
+  public String board_detail(HttpServletRequest request,
+		  HttpServletResponse response) {
+	  
+	  // 사용자 전송 데이터 받기
+	  String no = request.getParameter("no");
+	  // 요청 처리
+	  ReplyBoardVO vo = ReplyBoardDAO.boardDetailData(Integer.parseInt(no));
+	  // 처리된 결과값 => 해당 JSP 전송
+	  request.setAttribute("vo", vo);
+	  // 화면 출력
+	  request.setAttribute("main_jsp", "../replyboard/detail.jsp");
+	  return "../main/main.jsp";
+  }
+  
+  @RequestMapping("board/update.do")
+  public String board_update(HttpServletRequest request,
+		  HttpServletResponse response) {
+	  
+	  String no= request.getParameter("no");
+	  ReplyBoardVO vo = ReplyBoardDAO.boardUpdateData(Integer.parseInt(no));
+	  //update.jsp로 전송
+	  request.setAttribute("vo",vo);
+	  
+	  request.setAttribute("main_jsp","../replyboard/update.jsp");
+	  return "../main/main.jsp";
+  }
+  @RequestMapping("board/reply.do")
+  public String board_reply(HttpServletRequest request,
+		  HttpServletResponse response) {
+	  
+	  
+	  request.setAttribute("main_jsp","../replyboard/reply.jsp");
+	  return "../main/main.jsp";
+  }
+//  @RequestMapping("board/update_ok.do")
+//  public String board_update_ok(HttpServletRequest request,
+//		  HttpServletResponse response) {
+//	  
+//  }
+  
 }

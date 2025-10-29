@@ -47,7 +47,11 @@
 	            </c:forEach>
 	            <img src="../replyboard/re_icon.png">
 	          </c:if>
-	          ${vo.subject }
+	          <a href="../board/detail.do?no=${vo.no }">${vo.subject }</a>
+	          <%--
+	          		?no=10 = request.setAttribute("no",10)
+	          			=> getPag
+	           --%>
 	          &nbsp;
 	          <c:if test="${vo.dbday==today }">
 	           <sup><img src="../replyboard/new.gif"></sup>
@@ -70,7 +74,11 @@
      			<input type="text"size=10 name=fd class=input-sm>
      			<input type=button value="검색" class="btn-sm btn-danger">
      		</td>
-     		<td class="text-right"></td>
+     		<td class="text-right">
+     			<a href="#" class="btn btn-sm btn-success">이전</a>
+     				${curpage } page / ${totalpage } pages
+     			<a href="#" class="btn btn-sm btn-success">다음</a>
+     		</td>
      	</tr>
      </table>
     </div>
