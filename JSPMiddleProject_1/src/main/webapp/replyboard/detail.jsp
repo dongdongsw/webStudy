@@ -37,6 +37,37 @@ $(function(){
 		}
 	})
 
+	$('#deleteBtn').on('click',function(){
+		let pwd = $('#pwd').val()
+		if(pwd.trim()===""){
+			$('#pwd').focus()
+			return
+		}
+		let no=$('#deleteBtn').attr("data-no")
+		
+		$.ajax({
+			type:'POST',
+			url:'../board/delete.do',
+			data:{"no":no, "pwd":pwd}, // ?no=1&pwd=1234
+			// 요청				| => 요청 결과값
+			success:function(result){
+				// try
+				if(result==='yes'){
+					// 이동
+					location.href="../board/list.do"
+				}
+				else{
+					alert("비밀번호가 틀립니다")
+					$('#pwd').val("")
+					$('#pwd').focus()
+				}
+			},
+			error:function(error){
+				// catch
+				console.log(error)
+			}
+		})
+	})
 })
 
 </script>
@@ -94,8 +125,8 @@ pre{
 				</tr>
 				<tr id="del" style="display:none;">
 					<td colspan=4 class=text-right>
-						비밀번호 : <input type=password name=pwd size=10 class=input-sm>
-						<input type=button class="btn-sm btn-danger" value="삭제">
+						비밀번호 : <input type=password name=pwd size=10 class=input-sm id="pwd">
+						<input type=button class="btn-sm btn-danger" value="삭제" id="deleteBtn" data-no="${vo.no }">
 					</td>
 				</tr>
 			</table>
